@@ -5,7 +5,7 @@ const TILE_WRAPPER_UNSELECTED_CLASS = 'tile-wrapper';
 
 export default class BoatTile extends LightningElement {
  
-    @api boat; 
+    @api boat;
     @api selectedBoatId;
      
     // Getter for dynamically setting the background image for the picture

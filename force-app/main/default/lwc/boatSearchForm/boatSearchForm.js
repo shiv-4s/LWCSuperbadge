@@ -4,7 +4,7 @@ export default class BoatSearchForm extends LightningElement {
     value = 'All Types';
     searchOptions;
     selectedBoatTypeId = ''; 
-    error = undefined; 
+    error = undefined;
 
     @wire(getBoatTypes)
     boatTypes({ error, data }) {

@@ -2,7 +2,7 @@
 import { MessageContext,subscribe,APPLICATION_SCOPE  } from "lightning/messageService";
 import BOATMC from '@salesforce/messageChannel/BoatMessageChannel__c';
 import { getRecord } from 'lightning/uiRecordApi';
-import { api, LightningElement,wire } from "lwc";
+import { api, wire } from "lwc";
 
 // Declare the const LONGITUDE_FIELD for the boat's Longitude__s
 const LONGITUDE_FIELD = "Boat__c.Geolocation__Longitude__s";
@@ -58,7 +58,7 @@ export default class BoatMap extends LightningElement {
       return;
     }
     this.subscription = subscribe(
-      this.messageContext,
+      messageContext,
       BOATMC,
       (message)=>{
         this.boatId = message.recordId
@@ -75,7 +75,14 @@ export default class BoatMap extends LightningElement {
 
   // Creates the map markers array with the current boat's location for the map.
   updateMap(Longitude, Latitude) {
-    this.mapMarkers = [{location:{Latitude,Longitude}}];
+    const mapMarkers = BOAT_FIELDS.map((field) => {
+      return {
+        longitude: Longitude,
+        latitude: Latitude,
+        label: field,
+      };
+    });
+    this.mapMarkers = mapMarkers;
   }
 
   // Getter method for displaying the map component, or a helper method.

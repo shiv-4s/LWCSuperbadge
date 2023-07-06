@@ -1,13 +1,13 @@
 <template>
-    <template if:true={boats}>
-        <lightning-tabset> 
-            <lightning-tab label="Gallery">
-                <div class="slds-scrollable_y">
+    <lightning-tabset variant="scoped">  
+        <lightning-tab label="Gallery">
+            <div class="slds-scrollable_y">
+                <template if:true={boats}>
                     <lightning-layout
                     horizontal-align="center" 
                     multiple-rows="true"
                     >
-                    <template for:each={boats.data} for:item="boat">
+                    <template for:each={boats} for:item="boat">
                         <lightning-layout-item
                         key={boat.Id}
                         padding="around-small"
@@ -18,24 +18,36 @@
                         >
                         <c-boat-tile
                         onboatselect={updateSelectedTile}
+                        boat={boat}
+                        selected-boat-id={selectedBoatId}
                         >
                         </c-boat-tile>
                         </lightning-layout-item>
                     </template>
-
                     </lightning-layout>
-                </div>
-            </lightning-tab>
-            <lightning-tab label="Boat Editor">
-                <!-- Scrollable div and lightning datatable go here -->
-                <div class="slds-scrollable_y">
-                </div>
-              </lightning-tab>
-               <lightning-tab label="Boats Near Me">
-                <!-- boatsNearMe component goes here -->
-                <c-boats-near-me></c-boats-near-me>
-              </lightning-tab>
-        </lightning-tabset>
-    </template>
-    
+                </template>
+            </div>
+        </lightning-tab>
+        <lightning-tab label="Boat Editor">
+            <!-- Scrollable div and lightning datatable go here -->
+            <div class="slds-scrollable_y">
+                <lightning-datatable
+                hide-checkbox-column
+                key-field="Id"
+                data={boats}
+                columns={columns}
+                draft-values={draftValues}
+                onsave={handleSave}
+                >
+                </lightning-datatable>
+            </div>
+        </lightning-tab>
+        <lightning-tab label="Boats Near Me">
+            <!-- boatsNearMe component goes here -->
+            <c-boats-near-me
+            boat-type-id={boatTypeId}
+            >
+            </c-boats-near-me>
+        </lightning-tab>
+    </lightning-tabset>
 </template>

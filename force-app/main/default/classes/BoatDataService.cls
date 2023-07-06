@@ -13,7 +13,7 @@ public with sharing class BoatDataService {
                      + 'BoatType__c, BoatType__r.Name, Length__c, Price__c '
                      + 'FROM Boat__c';
         if (String.isNotBlank(boatTypeId)) {
-            query += ' WHERE BoatType__c = :boatTypeId';
+            query += ' WHERE BoatType__c = :boatTypeId'; 
         }
         query += ' WITH SECURITY_ENFORCED ';
         return Database.query(query);
@@ -67,7 +67,7 @@ public with sharing class BoatDataService {
         return [SELECT Name, Id FROM BoatType__c WITH SECURITY_ENFORCED ORDER BY Name];
     }
 
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static List<BoatReview__c> getAllReviews(Id boatId) {
         return [
             SELECT
